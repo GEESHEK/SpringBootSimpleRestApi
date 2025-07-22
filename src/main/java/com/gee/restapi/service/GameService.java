@@ -1,13 +1,15 @@
 package com.gee.restapi.service;
 
 import com.gee.restapi.exception.NotFoundException;
-import com.gee.restapi.model.Game;
-import com.gee.restapi.model.GameRequest;
-import com.gee.restapi.model.Publisher;
+import com.gee.restapi.model.dto.GameDto;
+import com.gee.restapi.model.entity.Game;
+import com.gee.restapi.model.entity.Publisher;
+import com.gee.restapi.model.request.GameRequest;
 import com.gee.restapi.respository.GameRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GameService implements IGameService {
@@ -21,33 +23,35 @@ public class GameService implements IGameService {
     }
 
     @Override
-    public Game createGame(GameRequest request) {
-        Publisher publisher = publisherService.getPublisher(request.getPublisherId());
+    public GameDto createGame(GameRequest request) {
+        Publisher publisher = publisherService.getPublisherEntity(request.getPublisherId());
 
         Game game = new Game();
         game.setName(request.getName());
         game.setPublisher(publisher);
 
-        return gameRepository.save(game);
+        return mapToDto(gameRepository.save(game));
     }
 
     @Override
-    public Game getGame(Long id) {
-        return gameRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Game with id " + id + " not found"));
+    public GameDto getGame(Long id) {
+        return mapToDto(getGameEntity(id));
     }
 
     @Override
-    public List<Game> getAllGames() {
-        return gameRepository.findAll();
+    public List<GameDto> getAllGames() {
+        List<Game> games = gameRepository.findAll();
+        return games.stream()
+                .map(game -> new GameDto(game.getId(), game.getName()))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Game updateGame(Long id, GameRequest request) {
-        Game game = getGame(id);
+    public GameDto updateGame(Long id, GameRequest request) {
+        Game game = getGameEntity(id);
         game.setName(request.getName());
 
-        return gameRepository.save(game);
+        return mapToDto(gameRepository.save(game));
     }
 
     @Override
@@ -55,4 +59,15 @@ public class GameService implements IGameService {
         gameRepository.deleteById(id);
     }
 
+    private Game getGameEntity(Long id) {
+        return gameRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Game with id " + id + " not found"));
+    }
+
+    private GameDto mapToDto(Game game) {
+        return GameDto.builder()
+                .id(game.getId())
+                .name(game.getName())
+                .build();
+    }
 }

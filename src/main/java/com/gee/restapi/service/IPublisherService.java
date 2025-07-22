@@ -1,16 +1,20 @@
 package com.gee.restapi.service;
 
-import com.gee.restapi.model.Publisher;
-import com.gee.restapi.model.PublisherRequest;
+import com.gee.restapi.model.dto.PublisherDto;
+import com.gee.restapi.model.dto.PublisherWithGamesDto;
+import com.gee.restapi.model.entity.Publisher;
+import com.gee.restapi.model.request.PublisherRequest;
 
 import java.util.List;
 
 public interface IPublisherService {
 
-   Publisher createPublisher(PublisherRequest request);
-   Publisher getPublisher(Long id);
-   List<Publisher> getAllPublishers();
-   Publisher updatePublisher(Long id, PublisherRequest request);
+   PublisherDto createPublisher(PublisherRequest request);
+   PublisherDto getPublisher(Long id);
+   PublisherWithGamesDto getPublisherWithGames(Long id);
+   Publisher getPublisherEntity(Long id);
+   List<PublisherDto> getAllPublishers();
+   PublisherDto updatePublisher(Long id, PublisherRequest request);
    void deletePublisher(Long id);
 
 }

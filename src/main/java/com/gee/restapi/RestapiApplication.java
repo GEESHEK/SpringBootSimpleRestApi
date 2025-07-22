@@ -1,7 +1,7 @@
 package com.gee.restapi;
 
-import com.gee.restapi.model.Game;
-import com.gee.restapi.model.Publisher;
+import com.gee.restapi.model.entity.Game;
+import com.gee.restapi.model.entity.Publisher;
 import com.gee.restapi.respository.GameRepository;
 import com.gee.restapi.respository.PublisherRepository;
 import org.springframework.boot.CommandLineRunner;

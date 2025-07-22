@@ -1,7 +1,8 @@
 package com.gee.restapi.controller;
 
-import com.gee.restapi.model.Publisher;
-import com.gee.restapi.model.PublisherRequest;
+import com.gee.restapi.model.dto.PublisherDto;
+import com.gee.restapi.model.dto.PublisherWithGamesDto;
+import com.gee.restapi.model.request.PublisherRequest;
 import com.gee.restapi.service.PublisherService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,22 +21,27 @@ public class PublisherController {
     }
 
     @GetMapping
-    public List<Publisher> getPublishers() {
+    public List<PublisherDto> getPublishers() {
         return publisherService.getAllPublishers();
     }
 
     @GetMapping("{id}")
-    public Publisher getPublisher(@PathVariable Long id) {
+    public PublisherDto getPublisher(@PathVariable Long id) {
         return publisherService.getPublisher(id);
     }
 
+    @GetMapping("/{id}/with-games")
+    public PublisherWithGamesDto getPublisherWithGames(@PathVariable Long id) {
+        return publisherService.getPublisherWithGames(id);
+    }
+
     @PostMapping
-    public ResponseEntity<Publisher> createPublisher(@RequestBody PublisherRequest request) {
+    public ResponseEntity<PublisherDto> createPublisher(@RequestBody PublisherRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(publisherService.createPublisher(request));
     }
 
     @PutMapping("{id}")
-    public Publisher updatePublisher(@PathVariable Long id, @RequestBody PublisherRequest request) {
+    public PublisherDto updatePublisher(@PathVariable Long id, @RequestBody PublisherRequest request) {
         return publisherService.updatePublisher(id, request);
     }
 }

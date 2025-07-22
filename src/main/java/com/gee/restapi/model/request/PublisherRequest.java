@@ -1,4 +1,4 @@
-package com.gee.restapi.model;
+package com.gee.restapi.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class GameRequest {
+public class PublisherRequest {
 
     private String name;
-    private Long publisherId;
-
 }

@@ -1,7 +1,7 @@
 package com.gee.restapi.controller;
 
-import com.gee.restapi.model.Game;
-import com.gee.restapi.model.GameRequest;
+import com.gee.restapi.model.dto.GameDto;
+import com.gee.restapi.model.request.GameRequest;
 import com.gee.restapi.service.IGameService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,22 +20,22 @@ public class GameController {
     }
 
     @GetMapping
-    public List<Game> getAllGames() {
+    public List<GameDto> getAllGames() {
         return gameService.getAllGames();
     }
 
     @GetMapping("{id}")
-    public Game getGame(@PathVariable Long id) {
+    public GameDto getGame(@PathVariable Long id) {
         return gameService.getGame(id);
     }
 
     @PostMapping
-    public ResponseEntity<Game> createGame(@RequestBody GameRequest request) {
+    public ResponseEntity<GameDto> createGame(@RequestBody GameRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(gameService.createGame(request));
     }
 
     @PutMapping("{id}")
-    public Game updateGame(@PathVariable Long id, @RequestBody GameRequest request) {
+    public GameDto updateGame(@PathVariable Long id, @RequestBody GameRequest request) {
         return gameService.updateGame(id, request);
     }
 }
