@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 @SpringBootApplication
 public class RestapiApplication {
@@ -17,6 +18,7 @@ public class RestapiApplication {
     }
 
     @Bean
+    @Profile("!test") // need so these objects are not added to the db when testing
     CommandLineRunner initData(PublisherRepository publisherRepo, GameRepository gameRepo) {
         return args -> {
             Publisher nintendo = new Publisher();
