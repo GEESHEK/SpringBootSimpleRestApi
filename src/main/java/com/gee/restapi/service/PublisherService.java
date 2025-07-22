@@ -76,6 +76,10 @@ public class PublisherService implements IPublisherService {
 
     @Override
     public void deletePublisher(Long id) {
+        if (!publisherRepository.existsById(id)) {
+            throw new NotFoundException("Publisher with id: " + id + " not found");
+        }
+
         publisherRepository.deleteById(id);
     }
 

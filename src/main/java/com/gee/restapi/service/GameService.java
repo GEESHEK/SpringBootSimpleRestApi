@@ -56,6 +56,10 @@ public class GameService implements IGameService {
 
     @Override
     public void deleteGame(Long id) {
+        if (!gameRepository.existsById(id)) {
+            throw new NotFoundException("Game not found");
+        }
+
         gameRepository.deleteById(id);
     }
 
